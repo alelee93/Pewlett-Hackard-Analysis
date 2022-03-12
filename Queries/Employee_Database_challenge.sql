@@ -62,3 +62,22 @@ ORDER BY em.emp_no
 
 SELECT * from mentorship_eligibility
 
+-- **** EXTRA FOR Analysis
+
+--Create table with current employees
+SELECT DISTINCT ON (titles.emp_no) dept_emp.emp_no, 
+	dept_emp.dept_no, dept_emp.from_date AS "hire_date", 
+	dept_emp.to_date, 
+	titles.title
+INTO active_employees_by_title
+FROM dept_emp
+JOIN titles ON dept_emp.emp_no = titles.emp_no
+WHERE dept_emp.to_date = '9999-01-01'
+ORDER BY titles.emp_no, titles.to_date DESC
+
+-- look at currently employees by title
+SELECT COUNT(emp_no) as "# of Current Employees", title
+from active_employees_by_title
+GROUP BY title
+ORDER BY "# of Current Employees" DESC
+
